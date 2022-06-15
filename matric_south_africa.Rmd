@@ -1,0 +1,86 @@
+---
+title: "Matric South Africa"
+author: "Mpilo Khumalo"
+date: '2022-06-10'
+output: html_document
+---
+
+## Loading Packages
+
+```{r, results='hide', warning=FALSE, message=FALSE}
+
+library(tidyverse)
+library(ggplot2)
+library(cowplot)
+library(dplyr)
+library(lubridate)
+library(plyr)
+library(rvest)
+
+```
+
+## Loading Data
+
+```{r}
+
+#raw_confirmedcases_data <- read.csv("time_series_covid19_confirmed_global.csv", sep = ",", header = T)
+
+```
+
+## Web Scraping Lockdown Alerts Data
+
+```{r results='hide', warning=FALSE, message=FALSE}
+
+link = "https://mybroadband.co.za/news/government/431106-south-africas-matric-pass-rate-official-vs-real-from-1995-to-2021.html"
+page = read_html(link)
+
+matric_pass_rates = page %>% html_nodes("td") %>% html_text
+
+```
+
+## Cleaning Confirmed Cases Data
+
+```{r results='hide', warning=FALSE, message=FALSE}
+
+matric_pass_rates_df <- as.data.frame(matric_pass_rates, header = T)
+
+matric_pass_rates_df <- mutate(matric_pass_rates_df, div = rep(1:2, each = 1, times = 27))
+
+year <- filter(matric_pass_rates_df, div == 1)
+pass_rate <- filter(matric_pass_rates_df, div == 2)
+
+matric_pass_rates_df <- cbind(year, pass_rate)
+
+matric_pass_rates_df <- matric_pass_rates_df[, c(1, 3)]
+
+colnames(matric_pass_rates_df) <- c("Year", "Pass_rate")
+matric_pass_rates_df$Year <- as.numeric(matric_pass_rates_df$Year)
+matric_pass_rates_df$Pass_rate <- as.numeric(matric_pass_rates_df$Pass_rate)
+
+matric_pass_rates_df <- matric_pass_rates_df %>% 
+      mutate(Curriculum = case_when(Year >= 1990 & Year <= 2005 ~ "OBE",
+                                   Year >= 2004 & Year <= 2007 ~ "RNCS",
+                                   Year >= 2008 & Year <= 2011 ~ "NCS",
+                                   Year >= 2012 ~ "CAPS"))
+
+attach(matric_pass_rates_df)
+
+```
+
+
+## Data Visualisations
+
+### Pass_rate 1995 - 2021
+
+```{r}
+(graph1 <-ggplot(matric_pass_rates_df, aes(Year, Pass_rate, colour = Curriculum)) + 
+   geom_line() + 
+   geom_point() +
+   ylim(0,100) + 
+   xlim(1995, 2021) + 
+   labs(x = "Year", y = "Pass rate (%)") + 
+   theme(panel.background = element_rect(),
+                    axis.line = element_line(colour ="black")))
+ggsave(filename = "matric_pass_rates_South_Africa.png", graph1)
+
+```
