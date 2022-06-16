@@ -1,4 +1,4 @@
-# Analysis of South Africa's matric pass rates between the years 1995 and 2021
+# Analysing South Africa's matric pass rates between the years 1995 and 2021
 
 In this project I am showcasing my Data Analytics skills by exploring South Africa's matric pass rates. I am still working on imporving the visualisations and intepretations from this data to help anyone understand and also see answers to interesting questions.
 
