@@ -7,8 +7,8 @@ In this project I am showcasing my Data Analytics skills by exploring South Afri
 - [HTML for the Project](https://github.com/Mpilo-K/matric_south_africa/blob/main/matric_south_africa.html)
 
 ### Data Sources"
-- [Kaggle Covid-19 Dataset](https://www.kaggle.com/datasets/imdevskp/corona-virus-report)
-- [South African Covid-19 Alerts Data](https://www.gov.za/covid-19/about/about-alert-system)
+- [Matric Pass Rates Data](https://mybroadband.co.za/news/government/431106-south-africas-matric-pass-rate-official-vs-real-from-1995-to-2021.html)
+- [South Africa's Curriculm Change Data](https://www.iol.co.za/dailynews/news/sas-school-journey-1806392)
 
 ### Packages/Libraries used in this project:
 - [Tidyverse](https://github.com/tidyverse/tidyverse)
